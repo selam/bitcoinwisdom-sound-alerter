@@ -2,7 +2,8 @@
   "manifest_version": 2,
   "name": "Bitcoinwisdom sound alerter",
   "description": "This extension provides sound and desktop notification for bitcoinwisdom.com",
-  "version": "0.1",
+  "version": "0.2",
+  "author": "Timu Eren<selamtux@gmail.com>",
   "permissions": [
     "http://bitcoinwisdom.com/"
   ],
@@ -14,7 +15,7 @@
     "images/arrow-up.png",
     "images/arrow-down.png"
   ],
-  "homepage_url": "https://github.com/selam/bitcoinwisdom-soundalerter",
+  "homepage_url": "https://github.com/selam/bitcoinwisdom-sound-alerter",
   "content_scripts": [ {
       "js": [ "alertinsertion.js" ],
       "matches": [ "http://bitcoinwisdom.com/*"],
