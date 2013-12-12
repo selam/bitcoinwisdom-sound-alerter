@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Bitcoinwisdom sound alerter",
+  "description": "This extension provides sound and desktop notification for bitcoinwisdom.com",
+  "version": "0.1",
+  "permissions": [
+    "http://bitcoinwisdom.com/"
+  ],
+  "web_accessible_resources": [
+    "script/soundalerter.js",
+    "css/soundalerter.css",
+    "sounds/nooo.mp3",
+    "sounds/road_runner.mp3",
+    "images/arrow-up.png",
+    "images/arrow-down.png"
+  ],
+  "homepage_url": "https://github.com/selam/bitcoinwisdom-soundalerter",
+  "content_scripts": [ {
+      "js": [ "alertinsertion.js" ],
+      "matches": [ "http://bitcoinwisdom.com/*"],
+      "run_at": "document_end"
+   } ]
+}

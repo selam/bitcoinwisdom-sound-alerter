@@ -1,0 +1,56 @@
+#soundoptions-modal {
+    display:none;
+    width: 60%; 
+    top: 20%; 
+    left: 20%;
+    position: absolute; 
+    border-radius: 5px; 
+    box-shadow: 0px 0px 3px #666; 
+    padding: 12px;
+}
+html.dark #soundoptions-modal {
+    background-color: rgba(10,10,10, 1.0); 
+}
+html.light #soundoptions-modal {
+    background-color: rgba(255,255,255, 1.0);
+}
+
+#soundalerter-about {
+    float:right;
+    width: 60%;
+}
+
+#soundalerter-options {
+    float:left;
+    width:40%;
+}
+
+#soundalerter-options .label {
+    width:40%;
+}
+#soundalerter-options div div {
+    float:left;
+}
+#soundalerter-options > div {
+    clear:left;
+    line-height:1.9em;
+}
+#close_sound_options { 
+    display: block;
+    clear: both;
+    text-align: center;
+}
+
+.soundalerter-audio {
+    display:none;
+}
+
+html.light #soundoptions-modal .warning {
+        font-weight: bold;
+       color: #F80;
+}
+
+html.dark #soundoptions-modal .warning {
+    font-weight: bold;
+    color: yellow;
+}
