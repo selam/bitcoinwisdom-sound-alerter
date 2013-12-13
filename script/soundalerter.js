@@ -25,14 +25,22 @@
             var havePermission = window.webkitNotifications.checkPermission();
             if(havePermission === 0) {
                 if(up !== 0.0 && price > up &&  $("body").data("notificationup") != 'no') {
-                    window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('upimage'), "Price Alert!!",  "Price of "+tradeType+" went up to " + up + " on "+$("#market a").text().split(" ")[0]).show();      
+                    var notif = window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('upimage'), "Price Alert!!",  "Price of "+tradeType+" went up to " + up + " on "+$("#market a").text().split(" ")[0])
+                    notiff.onclose=function(){
+                        $("#upsound")[0].stop();
+                    };
+                    notiff.show();      
                     $("body").data("notificationup", 'no');
                 }
                 if(up !== 0.0 && price < up){
                     $("body").data("notificationup", "yes");
                 }
                 if(down !== 0.0 && price < down && $("body").data("notificationdown") != 'no') {
-                    window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('downimage'), "Price Alert!!",  "Price of "+tradeType+" went down to " + down +" on "+$("#market a").text().split(" ")[0]).show();                    
+                    var notiff = window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('downimage'), "Price Alert!!",  "Price of "+tradeType+" went down to " + down +" on "+$("#market a").text().split(" ")[0])
+                    notiff.onclose=function(){
+                        $("#downsound")[0].stop();
+                    };
+                    .show();                    
                     $("body").data("notificationdown", 'no');
                 }
                 if(down !== 0.0 && price > down) {
