@@ -137,6 +137,7 @@
         var down = parseFloat(localStorage.getItem(tradeMarket+"down") || '0.0');
         var price = parseFloat($(this).text());
         var notification = localStorage.getItem(tradeMarket+"notification") || 'no';
+        var sound = localStorage.getItem(tradeMarket+"sound") || 'no';
         if(notification == 'yes') {
             show_notification(price, up, down);
         }
