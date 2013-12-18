@@ -40,7 +40,7 @@
                     notiff.onclose=function(){
                         $("#downsound")[0].stop();
                     };
-                    .show();                    
+                    notiff.show();                    
                     $("body").data("notificationdown", 'no');
                 }
                 if(down !== 0.0 && price > down) {
