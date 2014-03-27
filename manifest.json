@@ -23,7 +23,7 @@
   "homepage_url": "https://github.com/selam/bitcoinwisdom-sound-alerter",
   "content_scripts": [ {
       "js": [ "alertinsertion.js" ],
-      "matches": [ "http://bitcoinwisdom.com/*"],
+      "matches": [ "http://bitcoinwisdom.com/*", "https://bitcoinwisdom.com/*"],
       "run_at": "document_end"
    } ]
 }
