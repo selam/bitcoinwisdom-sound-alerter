@@ -1,46 +1,89 @@
-(function(){      
-    
+(function(){
+
     if (!'localStorage' in window && window['localStorage'] === null) {
         alert("Your browser doesn't supported, please upgrade your browser");
-      
-        return null;            
+
+        return null;
     }
-    
+
     var tradeType = $("#market a").text().split(" ")[1]
-    var tradeMarket = $("#market a").text().toLowerCase().replace(/ /, '');        
+    var tradeMarket = $("#market a").text().toLowerCase().replace(/ /, '');
     var sound = localStorage.getItem(tradeMarket+"sound");
     var notification = localStorage.getItem(tradeMarket+"notification");
     var up = localStorage.getItem(tradeMarket+"up") || '0.0';
     var down = localStorage.getItem(tradeMarket+"down") || '0.0';
-    
+
     var yes_or_no = function(param, val) {
         if(param == val) {
             return 'selected';
         }
         return '';
     };
-    
+
     var show_notification = function(price, up, down){
         try {
-            var havePermission = window.webkitNotifications.checkPermission();
-            if(havePermission === 0) {
+            var notiff = window.webkitNotifications || window.Notification
+            var permisson = notiff.checkPermission || notiff.permission
+            var permitted = typeof(permisson) == "function" ? permisson() : permisson
+	
+            if(["granted", 0].indexOf(permitted) != -1) {
+
+                notification = null
+                upImage = $("#soundalerter-js-tag").data('upimage')
+                downImage = $("#soundalerter-js-tag").data('downimage')
+                title = "Price Alert!!"
                 if(up !== 0.0 && price > up &&  $("body").data("notificationup") != 'no') {
-                    var notif = window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('upimage'), "Price Alert!!",  "Price of "+tradeType+" went up to " + up + " on "+$("#market a").text().split(" ")[0])
-                    notiff.onclose=function(){
-                        $("#upsound")[0].stop();
+                    notificationText = "Price of "+tradeType+" went up to " + up + " on "+$("#market a").text().split(" ")[0]
+                    if ("Notification" in window) {
+
+                        notification = new Notification(title, {
+                          icon: upImage,
+                          body: notificationText,
+                        });
+                    }
+                    else if ("webkitNotifications" in window) {
+                        notification = window.webkitNotifications.createNotification(upImage, title,  notificationText)
+                    }
+                    notification.onclose=function(){
+			if("stop" in $("#upsound")[0]) {
+	                        $("#upsound")[0].stop();
+			} else {
+	                        $("#upsound")[0].pause();
+				$("#upsound")[0].currentTime = 0;
+
+			}
                     };
-                    notiff.show();      
+		    if("show" in notification) {
+                    	notification.show();
+		    }
                     $("body").data("notificationup", 'no');
                 }
                 if(up !== 0.0 && price < up){
                     $("body").data("notificationup", "yes");
                 }
                 if(down !== 0.0 && price < down && $("body").data("notificationdown") != 'no') {
-                    var notiff = window.webkitNotifications.createNotification($("#soundalerter-js-tag").data('downimage'), "Price Alert!!",  "Price of "+tradeType+" went down to " + down +" on "+$("#market a").text().split(" ")[0])
-                    notiff.onclose=function(){
-                        $("#downsound")[0].stop();
+                    notificationText = "Price of "+tradeType+" went down to " + down +" on "+$("#market a").text().split(" ")[0]
+                    if ("Notification" in window) {
+                        notification = new Notification(title, {
+                          icon: downImage,
+                          body: notificationText,
+                        });
+                    }
+                    else if ("webkitNotifications" in window) {
+                        notification = window.webkitNotifications.createNotification(upImage, title,  notificationText)
+                    }
+                    notification.onclose=function(){
+                	if("stop" in $("#upsound")[0]) {
+	                        $("#downsound")[0].stop();
+			} else {
+	                        $("#downsound")[0].pause();
+				$("#downsound")[0].currentTime = 0;
+			}
+
                     };
-                    notiff.show();                    
+                    if("show" in notification) {
+                    	notification.show();
+		    }
                     $("body").data("notificationdown", 'no');
                 }
                 if(down !== 0.0 && price > down) {
@@ -48,7 +91,7 @@
                 }
             }
         }catch(e) {
-            // do nothing
+		// do nothing
         }
     };
     var play_sound = function(price, up, down) {
@@ -60,14 +103,14 @@
             $("body").data("playup", "yes");
         }
         if(down !== 0.0 && price < down && $("body").data("playdown") != 'no') {
-            $("#downsound")[0].play();    
+            $("#downsound")[0].play();
             $("body").data("playdown", "no");
         }
         if(down !== 0.0 && price > down) {
             $("body").data("playdown", "yes");
         }
     };
-    
+
     var soundOptionsHtml = [
         "<div id='soundoptions-modal'>",
             "<div>",
@@ -75,7 +118,7 @@
                 "<div id='soundalerter-about'>",
                     "Enable sound notifications to get informed when a change occurs based on your criteria.",
                     "<div class='warning'>Warning! This setting is currency specific setting. It won't work if you switch to another currency or trade sites</div>",
-                    "<div>If you found this tool useful please consider tipping me at <br />LTC: LZP363BJqSTBMacEshHas49fapF58CmbTL <br />BTC: 15qha9XF6PK1ZMUkzCbdjpTHzP9NvPq2DS</div>",
+                    "<div>If you found this tool useful please consider tipping me at <br />LTC: Lf4ysgeWcPbc3sGCLyG6A2uC78Fo3uAVzZ <br />BTC: 1upZkr2mcs8QEb2MxXGHHKKZMcqfriiCx</div>",
                 "</div>",
                 "<div id='soundalerter-options'>",
                     "<div>",
@@ -101,17 +144,17 @@
                 "</div>",
                 "<div id='close_sound_options'><a>[ CLOSE ]</a></div>",
             "</div>",
-        "</div>"        
+        "</div>"
     ].join("\n")
-    
-  
-    
-    
-    
-    $("#periods").append("<li><a id='soundoptions'>SOUND OPTIONS</a></li>");    
+
+
+
+
+
+    $("#periods").append("<li><a id='soundoptions'>SOUND OPTIONS</a></li>");
     $("body").append(soundOptionsHtml); // settings view
-    
-    $("#soundoptions, #close_sound_options").click(function(){      
+
+    $("#soundoptions, #close_sound_options").click(function(){
         if($("#soundoptions-modal").is(':visible')) {
             $("#soundoptions-modal").hide();
         }
@@ -125,10 +168,14 @@
     $("#soundoptions-modal select, #soundoptions-modal input").on('change', function(){
         var value = $(this).val();
         var name = $(this).attr("name");
-        if(name == 'notification' && value == 'yes' && 'webkitNotifications' in window && window.webkitNotifications.checkPermission() !== 0){
+        if(name == 'notification' && value == 'yes'){
+            if('webkitNotifications' in window && window.webkitNotifications.checkPermission() !== 0) {
                 window.webkitNotifications.requestPermission();
-        } 
-        
+            } else if ("Notification" in window && window.Notification.permission != "granted") {
+                window.Notification.requestPermission();
+            }
+        }
+
         localStorage.setItem(tradeMarket + name, value);
     });
 
